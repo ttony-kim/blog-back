@@ -21,5 +21,9 @@ public class PostService {
                 .collect(Collectors.toList());
     }
 
+    public long getAllPostCount() {
+        return postRepository.count();
+    }
+
 
 }

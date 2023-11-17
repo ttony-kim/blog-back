@@ -3,7 +3,6 @@ package project.blog.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import project.blog.dto.PostDto;
-import project.blog.entity.Post;
 import project.blog.repository.PostRepository;
 
 import java.util.List;
@@ -17,7 +16,7 @@ public class PostService {
 
     public List<PostDto> getAllPost() {
         return postRepository.findAll().stream()
-                .map(Post::toPostDto)
+                .map(PostDto::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -25,5 +24,8 @@ public class PostService {
         return postRepository.count();
     }
 
+    public void savePost(PostDto postDto) {
+        postRepository.save(postDto.toEntity());
+    }
 
 }

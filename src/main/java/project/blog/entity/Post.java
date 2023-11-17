@@ -4,15 +4,15 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
-import project.blog.dto.PostDto;
-
-import java.time.LocalDateTime;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Getter @Setter
-public class Post {
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Post extends BaseTimeEntity {
 
     @Id
     @Column(name = "post_id")
@@ -21,14 +21,11 @@ public class Post {
 
     private String title;
     private String content;
-    private LocalDateTime createDate;
 
-    public PostDto toPostDto() {
-        return PostDto.builder()
-                .id(id)
-                .title(title)
-                .content(content)
-                .build();
+    @Builder
+    public Post(String title, String content) {
+        this.title = title;
+        this.content = content;
     }
 
 }

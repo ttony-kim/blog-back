@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import project.blog.entity.Post;
 
+import java.time.format.DateTimeFormatter;
+
 @Data
 @NoArgsConstructor
 public class PostDto {
@@ -12,12 +14,14 @@ public class PostDto {
     private Long id;
     private String title;
     private String content;
+    private String createdDate;
 
     @Builder
-    public PostDto(Long id, String title, String content) {
+    public PostDto(Long id, String title, String content, String createdDate) {
         this.id = id;
         this.title = title;
         this.content = content;
+        this.createdDate = createdDate;
     }
 
     // dto -> entity
@@ -34,6 +38,8 @@ public class PostDto {
                 .id(post.getId())
                 .title(post.getTitle())
                 .content(post.getContent())
+                .createdDate(post.getCreatedDate()
+                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
                 .build();
     }
 

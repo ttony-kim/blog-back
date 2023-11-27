@@ -3,10 +3,7 @@ package project.blog.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import project.blog.dto.PostDto;
 import project.blog.service.PostService;
 
@@ -36,6 +33,22 @@ public class PostController {
         log.info("Method: savePost");
 
         postService.savePost(postDto);
+
+        return ResponseEntity.ok("ok");
+    }
+
+    @GetMapping("/api/posts/{id}")
+    public ResponseEntity<PostDto> getPost(@PathVariable("id") long id) {
+        PostDto result = postService.getPost(id);
+
+        return ResponseEntity.ok(result);
+    }
+
+    @PutMapping("/api/posts/{id}")
+    public ResponseEntity<String> updatePost(@PathVariable("id") long id, @RequestBody PostDto postDto) {
+        log.info("Method: updatePost");
+
+        postService.updatePost(id, postDto);
 
         return ResponseEntity.ok("ok");
     }

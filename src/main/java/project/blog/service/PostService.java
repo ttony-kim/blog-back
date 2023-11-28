@@ -41,4 +41,8 @@ public class PostService {
         post.update(postDto.getTitle(), postDto.getContent());
     }
 
+    public void deletePost(long id) {
+        postRepository.deleteById(id);
+    }
+
 }

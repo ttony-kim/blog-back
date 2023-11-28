@@ -1,6 +1,8 @@
 package project.blog.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.blog.dto.PostDto;
@@ -16,15 +18,19 @@ public class PostService {
 
     private final PostRepository postRepository;
 
-    public List<PostDto> getAllPost() {
-        return postRepository.findAll().stream()
-                .map(PostDto::toDto)
-                .collect(Collectors.toList());
+    public Page<PostDto> getAllPost(Pageable pageable) {
+        return postRepository.findAll(pageable).map(PostDto::toDto);
     }
 
-    public long getAllPostCount() {
-        return postRepository.count();
-    }
+//    public <PostDto> getAllPost() {
+//        return postRepository.findAll().stream()
+//                .map(PostDto::toDto)
+//                .collect(Collectors.toList());
+//    }
+
+//    public long getAllPostCount() {
+//        return postRepository.count();
+//    }
 
     public void savePost(PostDto postDto) {
         postRepository.save(postDto.toEntity());

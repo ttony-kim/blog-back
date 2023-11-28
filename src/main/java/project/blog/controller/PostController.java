@@ -2,6 +2,8 @@ package project.blog.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.blog.dto.PostDto;
@@ -18,14 +20,10 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping("/api/posts")
-    public ResponseEntity getAllPost() {
+    public ResponseEntity<Page<PostDto>> getAllPost(Pageable pageable) {
         log.info("Method: getAllPost");
 
-        Map<String, Object> result = new HashMap<>();
-        result.put("list", postService.getAllPost());
-        result.put("count", postService.getAllPostCount());
-
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(postService.getAllPost(pageable));
     }
 
     @PostMapping("/api/posts")

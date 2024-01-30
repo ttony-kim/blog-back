@@ -9,9 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import project.blog.dto.PostDto;
 import project.blog.service.PostService;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -20,10 +17,10 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping("/api/posts")
-    public ResponseEntity<Page<PostDto>> getAllPost(Pageable pageable) {
-        log.info("Method: getAllPost");
+    public ResponseEntity<Page<PostDto>> getPosts(Long categoryId, Pageable pageable) {
+        log.info("Method: getPosts");
 
-        return ResponseEntity.ok(postService.getAllPost(pageable));
+        return ResponseEntity.ok(postService.getPosts(categoryId, pageable));
     }
 
     @PostMapping("/api/posts")
@@ -37,6 +34,8 @@ public class PostController {
 
     @GetMapping("/api/posts/{id}")
     public ResponseEntity<PostDto> getPost(@PathVariable("id") long id) {
+        log.info("Method: getPost");
+
         PostDto result = postService.getPost(id);
 
         return ResponseEntity.ok(result);

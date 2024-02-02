@@ -1,13 +1,13 @@
-package project.blog.config;
+package project.blog.global.config;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import project.blog.entity.Category;
-import project.blog.entity.Post;
-import project.blog.repository.CategoryRepository;
-import project.blog.repository.PostRepository;
+import project.blog.domain.category.entity.Category;
+import project.blog.domain.post.entity.Post;
+import project.blog.domain.category.repository.CategoryRepository;
+import project.blog.domain.post.repository.PostRepository;
 
 @Component
 @RequiredArgsConstructor

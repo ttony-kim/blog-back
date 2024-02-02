@@ -1,9 +1,9 @@
-package project.blog.service;
+package project.blog.domain.category.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import project.blog.dto.CategoryDto;
-import project.blog.repository.CategoryRepository;
+import project.blog.domain.category.dto.CategoryDto;
+import project.blog.domain.category.repository.CategoryRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;

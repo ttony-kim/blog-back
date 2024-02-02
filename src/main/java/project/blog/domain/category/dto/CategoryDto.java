@@ -1,9 +1,9 @@
-package project.blog.dto;
+package project.blog.domain.category.dto;
 
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import project.blog.entity.Category;
+import project.blog.domain.category.entity.Category;
 
 @Data
 @NoArgsConstructor

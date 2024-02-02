@@ -1,4 +1,4 @@
-package project.blog.controller;
+package project.blog.domain.post.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -6,8 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import project.blog.dto.PostDto;
-import project.blog.service.PostService;
+import project.blog.domain.post.dto.PostDto;
+import project.blog.domain.post.service.PostService;
 
 @Slf4j
 @RestController

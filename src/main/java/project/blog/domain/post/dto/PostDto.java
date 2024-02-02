@@ -1,9 +1,9 @@
-package project.blog.dto;
+package project.blog.domain.post.dto;
 
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import project.blog.entity.Post;
+import project.blog.domain.post.entity.Post;
 
 import java.time.format.DateTimeFormatter;
 

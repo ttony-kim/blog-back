@@ -1,4 +1,4 @@
-package project.blog.config;
+package project.blog.global.config;
 
 import lombok.Getter;
 

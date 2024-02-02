@@ -1,4 +1,4 @@
-package project.blog.entity;
+package project.blog.global.entity;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;

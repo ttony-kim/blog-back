@@ -1,10 +1,12 @@
-package project.blog.entity;
+package project.blog.domain.post.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import project.blog.global.entity.BaseTimeEntity;
+import project.blog.domain.category.entity.Category;
 
 @Entity
 @Getter

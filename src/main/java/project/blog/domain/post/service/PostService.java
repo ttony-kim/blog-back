@@ -1,14 +1,14 @@
-package project.blog.service;
+package project.blog.domain.post.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import project.blog.config.BasicCode;
-import project.blog.dto.PostDto;
-import project.blog.entity.Post;
-import project.blog.repository.PostRepository;
+import project.blog.global.config.BasicCode;
+import project.blog.domain.post.dto.PostDto;
+import project.blog.domain.post.entity.Post;
+import project.blog.domain.post.repository.PostRepository;
 
 @RequiredArgsConstructor
 @Service

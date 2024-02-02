@@ -22,5 +22,4 @@ public class CategoryService {
                 .collect(Collectors.toList());
     }
 
-
 }

@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import project.blog.config.BasicCode;
 import project.blog.dto.PostDto;
 import project.blog.entity.Post;
 import project.blog.repository.PostRepository;
@@ -31,21 +32,29 @@ public class PostService {
         postRepository.save(postDto.toEntity());
     }
 
-    public PostDto getPost(Long id) {
-        Post post = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("post doesn't exist"));
+    public PostDto getPost(Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("post doesn't exist"));
 
         return PostDto.toDto(post);
     }
 
     @Transactional
-    public void updatePost(long id, PostDto postDto) {
-        Post post = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("post doesn't exist"));
+    public void updatePost(long postId, PostDto postDto) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("post doesn't exist"));
 
         post.update(postDto.getTitle(), postDto.getContent());
     }
 
-    public void deletePost(long id) {
-        postRepository.deleteById(id);
+    public void deletePost(long postId) {
+        postRepository.deleteById(postId);
+    }
+
+    public Long getPostCountByCategory(Long categoryId) {
+        if(categoryId.equals(BasicCode.ALL.getId())) {
+            return postRepository.count();
+        }
+
+        return postRepository.countByCategoryId(categoryId);
     }
 
 }

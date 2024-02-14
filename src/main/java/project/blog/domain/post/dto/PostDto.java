@@ -14,13 +14,15 @@ public class PostDto {
     private Long id;
     private String title;
     private String content;
+    private String categoryName;
     private String createdDate;
 
     @Builder
-    public PostDto(Long id, String title, String content, String createdDate) {
+    public PostDto(Long id, String title, String content, String categoryName, String createdDate) {
         this.id = id;
         this.title = title;
         this.content = content;
+        this.categoryName = categoryName;
         this.createdDate = createdDate;
     }
 
@@ -38,8 +40,9 @@ public class PostDto {
                 .id(post.getId())
                 .title(post.getTitle())
                 .content(post.getContent())
+                .categoryName(post.getCategory().getName())
                 .createdDate(post.getCreatedDate()
-                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
+                        .format(DateTimeFormatter.ofPattern("yyyy.MM.dd")))
                 .build();
     }
 

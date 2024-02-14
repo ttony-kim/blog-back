@@ -19,6 +19,7 @@ public class Post extends BaseTimeEntity {
     private Long id;
 
     private String title;
+    @Lob
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -37,4 +38,12 @@ public class Post extends BaseTimeEntity {
         this.content = content;
     }
 
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                '}';
+    }
 }

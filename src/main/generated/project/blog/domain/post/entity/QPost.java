@@ -1,4 +1,4 @@
-package project.blog.entity;
+package project.blog.domain.post.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -8,7 +8,6 @@ import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.dsl.PathInits;
-import project.blog.domain.post.entity.Post;
 
 
 /**
@@ -17,15 +16,15 @@ import project.blog.domain.post.entity.Post;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QPost extends EntityPathBase<Post> {
 
-    private static final long serialVersionUID = 642509268L;
+    private static final long serialVersionUID = 260137968L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
     public static final QPost post = new QPost("post");
 
-    public final QBaseTimeEntity _super = new QBaseTimeEntity(this);
+    public final project.blog.global.entity.QBaseTimeEntity _super = new project.blog.global.entity.QBaseTimeEntity(this);
 
-    public final QCategory category;
+    public final project.blog.domain.category.entity.QCategory category;
 
     public final StringPath content = createString("content");
 
@@ -54,7 +53,7 @@ public class QPost extends EntityPathBase<Post> {
 
     public QPost(Class<? extends Post> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.category = inits.isInitialized("category") ? new QCategory(forProperty("category")) : null;
+        this.category = inits.isInitialized("category") ? new project.blog.domain.category.entity.QCategory(forProperty("category")) : null;
     }
 
 }

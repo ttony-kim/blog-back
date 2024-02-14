@@ -1,4 +1,4 @@
-package project.blog.entity;
+package project.blog.global.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -7,7 +7,6 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
-import project.blog.global.entity.BaseTimeEntity;
 
 
 /**
@@ -16,7 +15,7 @@ import project.blog.global.entity.BaseTimeEntity;
 @Generated("com.querydsl.codegen.DefaultSupertypeSerializer")
 public class QBaseTimeEntity extends EntityPathBase<BaseTimeEntity> {
 
-    private static final long serialVersionUID = -405682443L;
+    private static final long serialVersionUID = -521862792L;
 
     public static final QBaseTimeEntity baseTimeEntity = new QBaseTimeEntity("baseTimeEntity");
 

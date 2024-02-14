@@ -17,13 +17,7 @@ public class PostService {
     private final PostRepository postRepository;
 
     public Page<PostDto> getPosts(Long categoryId, Pageable pageable) {
-        Page<Post> posts;
-
-        if(categoryId == null) {
-            posts = postRepository.findAll(pageable);
-        } else {
-            posts = postRepository.findByCategoryId(categoryId, pageable);
-        }
+        Page<Post> posts = postRepository.findByCategoryId(categoryId, pageable);
 
         return posts.map(PostDto::toDto);
     }

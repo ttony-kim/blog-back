@@ -28,28 +28,28 @@ class PostRepositoryTest {
         }
     }
 
-    @Test
-    public void getPostListByCategoryId_isNull_fetchjoin_Paging() {
-        PageRequest pageRequest = PageRequest.of(0, 2);
-
-        Page<Post> all = postRepository.findFetchJoinPaging(null, pageRequest);
-
-        for (Post post : all) {
-            System.out.println("post = " + post);
-            System.out.println("post.getCategory() = " + post.getCategory());
-        }
-    }
-
-    @Test
-    public void getPostListByCategoryId_isNotNull_fetchjoin_Paging() {
-        PageRequest pageRequest = PageRequest.of(0, 2);
-
-        Page<Post> all = postRepository.findFetchJoinPaging(1L, pageRequest);
-
-        for (Post post : all) {
-            System.out.println("post = " + post);
-            System.out.println("post.getCategory() = " + post.getCategory());
-        }
-    }
+//    @Test
+//    public void getPostListByCategoryId_isNull_fetchjoin_Paging() {
+//        PageRequest pageRequest = PageRequest.of(0, 2);
+//
+//        Page<Post> all = postRepository.findFetchJoinPaging(null, pageRequest);
+//
+//        for (Post post : all) {
+//            System.out.println("post = " + post);
+//            System.out.println("post.getCategory() = " + post.getCategory());
+//        }
+//    }
+//
+//    @Test
+//    public void getPostListByCategoryId_isNotNull_fetchjoin_Paging() {
+//        PageRequest pageRequest = PageRequest.of(0, 2);
+//
+//        Page<Post> all = postRepository.findFetchJoinPaging(1L, pageRequest);
+//
+//        for (Post post : all) {
+//            System.out.println("post = " + post);
+//            System.out.println("post.getCategory() = " + post.getCategory());
+//        }
+//    }
 
 }

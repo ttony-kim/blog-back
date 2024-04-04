@@ -2,11 +2,10 @@ package project.blog.domain.post.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import project.blog.global.entity.BaseTimeEntity;
 import project.blog.domain.category.entity.Category;
+import project.blog.global.entity.BaseTimeEntity;
 
 @Entity
 @Getter
@@ -26,11 +25,14 @@ public class Post extends BaseTimeEntity {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @Builder
-    public Post(String title, String content, Category category) {
+    private Post(String title, String content, Category category) {
         this.title = title;
         this.content = content;
         this.category = category;
+    }
+
+    public static Post from(String title, String content, Category category) {
+        return new Post(title, content, category);
     }
 
     public void update(String title, String content) {

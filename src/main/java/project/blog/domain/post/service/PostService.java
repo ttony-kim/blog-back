@@ -5,31 +5,38 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import project.blog.domain.category.entity.Category;
+import project.blog.domain.category.repository.CategoryRepository;
 import project.blog.global.config.BasicCode;
 import project.blog.domain.post.dto.PostDto;
 import project.blog.domain.post.entity.Post;
 import project.blog.domain.post.repository.PostRepository;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class PostService {
 
     private final PostRepository postRepository;
+    private final CategoryRepository categoryRepository;
 
     public Page<PostDto> getPosts(Long categoryId, Pageable pageable) {
         Page<Post> posts = postRepository.findByCategoryId(categoryId, pageable);
 
-        return posts.map(PostDto::toDto);
+        return posts.map(PostDto::from);
     }
 
     public void savePost(PostDto postDto) {
-        postRepository.save(postDto.toEntity());
+        Category category = categoryRepository.findById(postDto.getCategoryId()).orElseThrow(() -> new IllegalArgumentException("category doesn't exist"));
+
+        postRepository.save(postDto.toEntity(category));
     }
 
     public PostDto getPost(Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("post doesn't exist"));
 
-        return PostDto.toDto(post);
+        return  PostDto.from(post);
     }
 
     @Transactional

@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,10 +20,14 @@ public class Category {
 
     private String name;
 
-    @Builder
-    public Category(String name) {
+    private Category(String name) {
         this.name = name;
     }
+
+    public static Category from(String name) {
+        return new Category(name);
+    }
+
 
     @Override
     public String toString() {

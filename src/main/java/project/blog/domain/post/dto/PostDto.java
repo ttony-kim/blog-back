@@ -1,22 +1,23 @@
 package project.blog.domain.post.dto;
 
-import lombok.Builder;
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import project.blog.domain.category.entity.Category;
 import project.blog.domain.post.entity.Post;
 
 @Data
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PostDto {
 
     private Long id;
     private String title;
     private String content;
+    private Long categoryId;
     private String categoryName;
     private String createdDate;
 
-    @Builder
-    public PostDto(Long id, String title, String content, String categoryName, String createdDate) {
+    private PostDto(Long id, String title, String content, String categoryName, String createdDate) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -24,23 +25,16 @@ public class PostDto {
         this.createdDate = createdDate;
     }
 
-    // dto -> entity
-    public Post toEntity() {
-        return Post.builder()
-                .title(title)
-                .content(content)
-                .build();
+    public static PostDto from(Post post) {
+        return new PostDto(post.getId(),
+                            post.getTitle(),
+                            post.getContent(),
+                            post.getCategory().getName(),
+                            post.getCreatedDate().toString());
     }
 
-    // entity -> dto
-    public static PostDto toDto(Post post) {
-        return PostDto.builder()
-                .id(post.getId())
-                .title(post.getTitle())
-                .content(post.getContent())
-                .categoryName(post.getCategory().getName())
-                .createdDate(post.getCreatedDate().toString())
-                .build();
+    public Post toEntity(Category category) {
+        return Post.from(title, content, category);
     }
 
 }

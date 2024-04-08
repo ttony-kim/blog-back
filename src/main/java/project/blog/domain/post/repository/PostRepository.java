@@ -7,11 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import project.blog.domain.post.entity.Post;
 
-import java.util.List;
-
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    @Query("select p from Post p join fetch p.category where (:categoryId is null or p.category.id = :categoryId)")
+    @Query("select p from Post p join fetch p.category where (:categoryId is null or p.category.id = :categoryId) order by p.createdDate desc")
     Page<Post> findByCategoryId(@Param("categoryId") Long categoryId, Pageable pageable);
 
     Long countByCategoryId(Long categoryId);

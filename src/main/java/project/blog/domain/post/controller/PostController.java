@@ -27,6 +27,7 @@ public class PostController {
     @PostMapping
     public ResponseEntity<String> savePost(@RequestBody PostDto postDto) {
         log.info("Method: savePost");
+        log.info("data: {}", postDto.toString());
 
         postService.savePost(postDto);
 
@@ -45,6 +46,7 @@ public class PostController {
     @PutMapping("/{postId}")
     public ResponseEntity<String> updatePost(@PathVariable("postId") long postId, @RequestBody PostDto postDto) {
         log.info("Method: updatePost");
+        log.info("data: {}", postDto.toString());
 
         postService.updatePost(postId, postDto);
 

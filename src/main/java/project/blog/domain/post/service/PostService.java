@@ -42,8 +42,9 @@ public class PostService {
     @Transactional
     public void updatePost(long postId, PostDto postDto) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("post doesn't exist"));
+        Category category =  categoryRepository.findById(postDto.getCategoryId()).orElseThrow(() -> new IllegalArgumentException("post doesn't exist"));
 
-        post.update(postDto.getTitle(), postDto.getContent());
+        post.update(postDto.getTitle(), postDto.getContent(), category);
     }
 
     public void deletePost(long postId) {

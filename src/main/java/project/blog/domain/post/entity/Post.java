@@ -35,9 +35,10 @@ public class Post extends BaseTimeEntity {
         return new Post(title, content, category);
     }
 
-    public void update(String title, String content) {
+    public void update(String title, String content, Category category) {
         this.title = title;
         this.content = content;
+        this.category = category;
     }
 
     @Override

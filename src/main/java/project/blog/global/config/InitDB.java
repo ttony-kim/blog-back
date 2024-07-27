@@ -6,8 +6,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import project.blog.domain.category.entity.Category;
 import project.blog.domain.category.repository.CategoryRepository;
+import project.blog.domain.member.entity.Member;
+import project.blog.domain.member.repository.MemberRepository;
 import project.blog.domain.post.entity.Post;
 import project.blog.domain.post.repository.PostRepository;
+import project.blog.global.config.common.BCryptEncryptor;
 
 @Component
 @RequiredArgsConstructor
@@ -15,6 +18,8 @@ public class InitDB {
 
     private final PostRepository postRepository;
     private final CategoryRepository categoryRepository;
+    private final MemberRepository memberRepository;
+    private final BCryptEncryptor bCryptEncryptor;
 
     @PostConstruct
     @Transactional
@@ -37,5 +42,8 @@ public class InitDB {
             }
             postRepository.save(post);
         }
+
+        Member member = Member.from("test", bCryptEncryptor.encryptPassword("test"), "test");
+        memberRepository.save(member);
     }
 }

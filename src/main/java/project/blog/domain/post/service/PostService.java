@@ -7,12 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.blog.domain.category.entity.Category;
 import project.blog.domain.category.repository.CategoryRepository;
-import project.blog.global.config.BasicCode;
+import project.blog.global.config.common.BasicCode;
 import project.blog.domain.post.dto.PostDto;
 import project.blog.domain.post.entity.Post;
 import project.blog.domain.post.repository.PostRepository;
-
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service

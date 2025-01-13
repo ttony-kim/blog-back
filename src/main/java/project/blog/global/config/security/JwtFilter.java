@@ -34,31 +34,33 @@ public class JwtFilter implements Filter {
 
         String requestURI = httpServletRequest.getRequestURI();
 
-        if (IGNORE_URI.contains(requestURI)) {
-            log.info("Ignore Page: {}", requestURI);
-            chain.doFilter(request, response);
-            return;
-        }
-
-        String bearerToken = httpServletRequest.getHeader(HEADER_KEY);
-        if (!(StringUtils.hasText(bearerToken) && bearerToken.startsWith(PREFIX))) {
-            setErrorResponse(httpServletResponse, "토큰이 존재하지 않습니다.", "NO_TOKEN_PROVIDED");
-            return;
-        }
-
-        try {
-            jwtProvider.validateToken(bearerToken.substring(PREFIX.length()));
-            chain.doFilter(request, response);
-        } catch (SignatureException | MalformedJwtException e) {
-            e.printStackTrace();
-            setErrorResponse(httpServletResponse, "유효하지 않은 토큰입니다.", "INVALID_TOKEN");
-        } catch (ExpiredJwtException e) {
-            e.printStackTrace();
-            setErrorResponse(httpServletResponse, "만료된 토큰입니다.", "EXPIRED_TOKEN");
-        } catch (Exception e) {
-            e.printStackTrace();
-            setErrorResponse(httpServletResponse, "잘못된 토큰입니다.", "MALFORMED_TOKEN");
-        }
+        chain.doFilter(request, response);
+//
+//        if (IGNORE_URI.contains(requestURI)) {
+//            log.info("Ignore Page: {}", requestURI);
+//            chain.doFilter(request, response);
+//            return;
+//        }
+//
+//        String bearerToken = httpServletRequest.getHeader(HEADER_KEY);
+//        if (!(StringUtils.hasText(bearerToken) && bearerToken.startsWith(PREFIX))) {
+//            setErrorResponse(httpServletResponse, "토큰이 존재하지 않습니다.", "NO_TOKEN_PROVIDED");
+//            return;
+//        }
+//
+//        try {
+//            jwtProvider.validateToken(bearerToken.substring(PREFIX.length()));
+//            chain.doFilter(request, response);
+//        } catch (SignatureException | MalformedJwtException e) {
+//            e.printStackTrace();
+//            setErrorResponse(httpServletResponse, "유효하지 않은 토큰입니다.", "INVALID_TOKEN");
+//        } catch (ExpiredJwtException e) {
+//            e.printStackTrace();
+//            setErrorResponse(httpServletResponse, "만료된 토큰입니다.", "EXPIRED_TOKEN");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            setErrorResponse(httpServletResponse, "잘못된 토큰입니다.", "MALFORMED_TOKEN");
+//        }
     }
 
     private void setErrorResponse(HttpServletResponse response, String message, String errorCode) throws IOException {

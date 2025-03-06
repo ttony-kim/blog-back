@@ -1,0 +1,10 @@
+routes:
+# 글 저장
+- path: "/api/posts"
+  method: "POST"
+# 글 수정
+- path: "/api/posts/\\d+"
+  method: "PUT"
+# 글 삭제
+- path: "/api/posts/\\d+"
+  method: "DELETE"

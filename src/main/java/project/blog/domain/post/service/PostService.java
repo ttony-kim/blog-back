@@ -19,8 +19,8 @@ public class PostService {
     private final PostRepository postRepository;
     private final CategoryRepository categoryRepository;
 
-    public Page<PostDto> getPosts(Long categoryId, Pageable pageable) {
-        Page<Post> posts = postRepository.findByCategoryId(categoryId, pageable);
+    public Page<PostDto> getPosts(Long categoryId, String searchValue, Pageable pageable) {
+        Page<Post> posts = postRepository.findByCategoryId(categoryId, searchValue, pageable);
 
         return posts.map(PostDto::from);
     }
@@ -49,12 +49,18 @@ public class PostService {
         postRepository.deleteById(postId);
     }
 
-    public Long getPostCountByCategory(Long categoryId) {
-        if(categoryId.equals(BasicCode.ALL.getId())) {
-            return postRepository.count();
+    public Long getPostCount(Long categoryId, String searchValue) {
+        // category 선택 시
+        if (categoryId != null) {
+            if (categoryId.equals(BasicCode.ALL.getId())) {
+                return postRepository.count();
+            } else {
+                return postRepository.countByCategoryId(categoryId);
+            }
         }
 
-        return postRepository.countByCategoryId(categoryId);
+        // 검색어 searchValue 입력 시
+        return postRepository.countBySearchValue(searchValue);
     }
 
 }

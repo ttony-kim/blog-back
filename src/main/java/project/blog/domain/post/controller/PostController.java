@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.blog.domain.post.dto.PostDto;
 import project.blog.domain.post.service.PostService;
+import project.blog.global.exception.custom.BadRequestException;
 
 @Slf4j
 @RestController
@@ -18,10 +19,10 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping
-    public ResponseEntity<Page<PostDto>> getPosts(Long categoryId, Pageable pageable) {
+    public ResponseEntity<Page<PostDto>> getPosts(Long categoryId, String searchValue, Pageable pageable) {
         log.info("Method: getPosts");
 
-        return ResponseEntity.ok(postService.getPosts(categoryId, pageable));
+        return ResponseEntity.ok(postService.getPosts(categoryId, searchValue, pageable));
     }
 
     @PostMapping
@@ -62,10 +63,15 @@ public class PostController {
         return ResponseEntity.ok("ok");
     }
 
-    @GetMapping("/category/{categoryId}/count")
-    public ResponseEntity<Long> getPostCountByCategory(@PathVariable Long categoryId) {
-        log.info("Method: getPostCountByCategory");
+    @GetMapping("/count")
+    public ResponseEntity<Long> getPostCount(Long categoryId, String searchValue) {
+        log.info("Method: getPostCount");
 
-        return ResponseEntity.ok(postService.getPostCountByCategory(categoryId));
+        if (categoryId == null && (searchValue == null || searchValue.isBlank())) {
+            throw new BadRequestException("Invalid category id or search keyword");
+        }
+
+        return ResponseEntity.ok(postService.getPostCount(categoryId, searchValue));
     }
+
 }

@@ -9,17 +9,18 @@ import project.blog.global.entity.BaseTimeEntity;
 
 @Entity
 @Getter
+@Table(name = "tbl_post")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Post extends BaseTimeEntity {
 
     @Id
     @Column(name = "post_id")
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
 
-    @Lob
+    @Column(columnDefinition = "longtext")
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)

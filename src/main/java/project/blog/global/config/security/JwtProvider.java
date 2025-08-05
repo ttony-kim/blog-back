@@ -19,7 +19,7 @@ import java.util.Date;
 @Component
 public class JwtProvider {
 
-    private long accessExpiration = 1000L * 60 * 5;
+    private long accessExpiration = 1000L * 60 * 100;
     private final SecretKey secretKey;
     private final MemberRepository memberRepository;
 

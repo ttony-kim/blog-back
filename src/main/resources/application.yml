@@ -10,6 +10,10 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 25MB
 
 logging.level:
   org.hibernate.SQL: debug
@@ -17,3 +21,7 @@ logging.level:
 
 server:
   port: 8084
+
+file:
+  upload:
+    path: C:\upload

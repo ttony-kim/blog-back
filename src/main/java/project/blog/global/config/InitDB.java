@@ -24,26 +24,26 @@ public class InitDB {
     @PostConstruct
     @Transactional
     public void init() {
-        Category category1 = Category.from("category1");
-        Category category2 = Category.from("category2");
+        Category category1 = Category.of("category1");
+        Category category2 = Category.of("category2");
         categoryRepository.save(category1);
         categoryRepository.save(category2);
 
         for(int i = 0; i < 10; i ++) {
             Post post;
             if(( i + 1 ) % 2 == 0 ) {
-                post = Post.from("Title " + (i + 1),
+                post = Post.of("Title " + (i + 1),
                             "Content: " + (i + 1) + " 입니다.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!zzz!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
                                     category1);
             } else {
-                post = Post.from("Title " + (i + 1),
+                post = Post.of("Title " + (i + 1),
                             "Content: " + (i + 1) + " 입니다.",
                                 category2);
             }
             postRepository.save(post);
         }
 
-        Member member = Member.from("test", bCryptEncryptor.encryptPassword("test"), "test");
+        Member member = Member.of("test", bCryptEncryptor.encryptPassword("test"), "test");
         memberRepository.save(member);
     }
 }

@@ -22,10 +22,9 @@ public class Category {
         this.name = name;
     }
 
-    public static Category from(String name) {
+    public static Category of(String name) {
         return new Category(name);
     }
-
 
     @Override
     public String toString() {
@@ -34,4 +33,5 @@ public class Category {
                 ", name='" + name + '\'' +
                 '}';
     }
+
 }

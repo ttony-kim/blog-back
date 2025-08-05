@@ -1,17 +1,14 @@
 package project.blog.domain.category.dto;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import project.blog.domain.category.entity.Category;
 
-@Data
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CategoryDto {
 
     private Long id;
     private String name;
-    private Long postCount;
 
     private CategoryDto(Long id, String name) {
         this.id = id;
@@ -21,4 +18,5 @@ public class CategoryDto {
     public static CategoryDto from(Category category) {
         return new CategoryDto(category.getId(), category.getName());
     }
+
 }

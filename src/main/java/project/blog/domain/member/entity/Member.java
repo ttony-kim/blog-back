@@ -26,7 +26,7 @@ public class Member {
         this.name = name;
     }
 
-    public static Member from(String email, String password, String name) {
+    public static Member of(String email, String password, String name) {
         return new Member(email, password, name);
     }
 

@@ -8,3 +8,6 @@ routes:
 # 글 삭제
 - path: "/api/posts/\\d+"
   method: "DELETE"
+# 파일 다운로드
+- path: "/api/attachment/download/\\d+"
+  method: "GET"

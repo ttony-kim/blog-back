@@ -11,7 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import project.blog.global.config.security.ApiAuthRoutesConfig.Route;
+import project.blog.global.config.properties.ApiAuthRoutesProperties;
+import project.blog.global.config.properties.ApiAuthRoutesProperties.Route;
 import project.blog.global.dto.ErrorResponse;
 
 import java.io.IOException;
@@ -26,7 +27,7 @@ public class JwtFilter implements Filter {
     private static final String PREFIX = "Bearer ";
 
     private final JwtProvider jwtProvider;
-    private final ApiAuthRoutesConfig apiAuthRoutes;
+    private final ApiAuthRoutesProperties apiAuthRoutes;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {

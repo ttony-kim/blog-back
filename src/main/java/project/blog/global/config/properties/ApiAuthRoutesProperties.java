@@ -1,4 +1,4 @@
-package project.blog.global.config.security;
+package project.blog.global.config.properties;
 
 import java.util.List;
 import lombok.Getter;
@@ -13,7 +13,7 @@ import project.blog.global.config.common.YamlPropertySourceFactory;
 @PropertySource(value = "classpath:config/api-auth-routes.yml", factory = YamlPropertySourceFactory.class)
 @Getter
 @Setter
-public class ApiAuthRoutesConfig {
+public class ApiAuthRoutesProperties {
 
   private List<Route> routes;
 

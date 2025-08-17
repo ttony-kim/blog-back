@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import project.blog.domain.attachment.dto.AttachmentDto;
-import project.blog.domain.category.dto.CategoryDto;
+import project.blog.domain.category.dto.CategoryResponseDto;
 import project.blog.domain.post.entity.Post;
 
 import java.util.Collections;
@@ -19,10 +19,10 @@ public class PostDetailResponseDto {
     private String title;
     private String content;
     private String createdDate;
-    private CategoryDto category;
+    private CategoryResponseDto category;
     private List<AttachmentDto> attachments;
 
-    public PostDetailResponseDto(Long id, String title, String content, String createdDate, CategoryDto category, List<AttachmentDto> attachments) {
+    public PostDetailResponseDto(Long id, String title, String content, String createdDate, CategoryResponseDto category, List<AttachmentDto> attachments) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -32,9 +32,9 @@ public class PostDetailResponseDto {
     }
 
     public static PostDetailResponseDto toDto(Post post) {
-        CategoryDto categoryDto = null;
+        CategoryResponseDto categoryDto = null;
         if (post.getCategory() != null) {
-            categoryDto = CategoryDto.from(post.getCategory());
+            categoryDto = CategoryResponseDto.from(post.getCategory());
         }
 
         List<AttachmentDto> attachmentDtos = post.getAttachments() == null ? Collections.emptyList() :

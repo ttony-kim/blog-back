@@ -12,7 +12,7 @@ import project.blog.domain.post.entity.Post;
 import project.blog.domain.post.repository.PostRepository;
 import project.blog.global.config.common.BCryptEncryptor;
 
-@Component
+//@Component
 @RequiredArgsConstructor
 public class InitDB {
 
@@ -21,11 +21,11 @@ public class InitDB {
     private final MemberRepository memberRepository;
     private final BCryptEncryptor bCryptEncryptor;
 
-    @PostConstruct
-    @Transactional
+//    @PostConstruct
+//    @Transactional
     public void init() {
-        Category category1 = Category.of("category1");
-        Category category2 = Category.of("category2");
+        Category category1 = Category.of("category1", true, 1);
+        Category category2 = Category.of("category2", true,2);
         categoryRepository.save(category1);
         categoryRepository.save(category2);
 

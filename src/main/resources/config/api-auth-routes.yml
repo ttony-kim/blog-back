@@ -11,3 +11,9 @@ routes:
 # 파일 다운로드
 - path: "/api/attachment/download/\\d+"
   method: "GET"
+# 카테고리 상세 조회
+- path: "/api/categories/detail"
+  method: "GET"
+# 카테고리 저장
+- path: "/api/categories"
+  method: "POST"

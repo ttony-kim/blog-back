@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import project.blog.global.config.common.BooleanToYNConverter;
 
 @Entity
 @Getter
@@ -18,12 +19,25 @@ public class Category {
 
     private String name;
 
-    private Category(String name) {
+    @Convert(converter = BooleanToYNConverter.class)
+    private Boolean enabled;
+
+    private Integer displayOrder;
+
+    private Category(String name, Boolean enabled, Integer displayOrder) {
         this.name = name;
+        this.enabled = enabled;
+        this.displayOrder = displayOrder;
     }
 
-    public static Category of(String name) {
-        return new Category(name);
+    public static Category of(String name, Boolean enabled, Integer displayOrder) {
+        return new Category(name, enabled, displayOrder);
+    }
+
+    public void update(String name, Boolean enabled, Integer displayOrder) {
+        this.name = name;
+        this.enabled = enabled;
+        this.displayOrder = displayOrder;
     }
 
     @Override
@@ -31,6 +45,8 @@ public class Category {
         return "Category{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", enabled=" + enabled +
+                ", displayOrder=" + displayOrder +
                 '}';
     }
 

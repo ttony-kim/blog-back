@@ -3,7 +3,7 @@ package project.blog.domain.post.dto;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import project.blog.domain.category.dto.CategoryDto;
+import project.blog.domain.category.dto.CategoryResponseDto;
 import project.blog.domain.post.entity.Post;
 
 @Getter
@@ -14,9 +14,9 @@ public class PostListResponseDto {
     private String title;
     private String content;
     private String createdDate;
-    private CategoryDto category;
+    private CategoryResponseDto category;
 
-    public PostListResponseDto(Long id, String title, String content, String createdDate, CategoryDto category) {
+    public PostListResponseDto(Long id, String title, String content, String createdDate, CategoryResponseDto category) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -25,9 +25,9 @@ public class PostListResponseDto {
     }
 
     public static PostListResponseDto toDto(Post post) {
-        CategoryDto categoryDto = null;
+        CategoryResponseDto categoryDto = null;
         if (post.getCategory() != null) {
-            categoryDto = CategoryDto.from(post.getCategory());
+            categoryDto = CategoryResponseDto.from(post.getCategory());
         }
 
         return new PostListResponseDto(post.getId(),

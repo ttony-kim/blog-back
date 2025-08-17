@@ -9,21 +9,7 @@ import project.blog.domain.post.entity.Post;
 
 import java.util.Optional;
 
-public interface PostRepository extends JpaRepository<Post, Long> {
-
-    @Query(value = """
-            select p from Post p left join fetch p.category
-            where (:categoryId is null or p.category.id = :categoryId)
-            and (:searchValue is null or (p.title like concat('%', :searchValue, '%') or p.content like concat('%', :searchValue, '%')))
-            order by p.createdDate desc
-            """,
-           countQuery = """
-            select count(p) from Post p
-            where (:categoryId is null or p.category.id = :categoryId)
-            and (:searchValue is null or (p.title like concat('%', :searchValue, '%') or p.content like concat('%', :searchValue, '%')))
-            """
-    )
-    Page<Post> findPostsByCategoryAndKeyword(@Param("categoryId") Long categoryId, @Param("searchValue") String searchValue, Pageable pageable);
+public interface PostRepository extends JpaRepository<Post, Long>, PostRepositoryCustom {
 
     Long countByCategoryId(Long categoryId);
 

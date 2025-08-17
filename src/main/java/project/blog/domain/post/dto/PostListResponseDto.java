@@ -1,13 +1,12 @@
 package project.blog.domain.post.dto;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import project.blog.domain.category.dto.CategoryResponseDto;
 import project.blog.domain.post.entity.Post;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class PostListResponseDto {
 
     private Long id;

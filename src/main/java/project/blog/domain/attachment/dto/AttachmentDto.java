@@ -1,12 +1,11 @@
 package project.blog.domain.attachment.dto;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import project.blog.domain.attachment.entity.Attachment;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class AttachmentDto {
 
     private Long id;

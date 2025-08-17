@@ -1,11 +1,10 @@
 package project.blog.domain.auth.dto;
 
-import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class LoginDto {
 
     private String email;

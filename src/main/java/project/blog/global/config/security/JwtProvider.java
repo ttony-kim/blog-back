@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import project.blog.domain.member.entity.Member;
 import project.blog.domain.member.repository.MemberRepository;
+import project.blog.global.config.common.ErrorCode;
 import project.blog.global.exception.custom.UnauthorizedException;
 
 import javax.crypto.SecretKey;
@@ -43,7 +44,7 @@ public class JwtProvider {
         Claims claims = getClaims(token);
         String email = claims.get("email", String.class);
 
-        memberRepository.findByEmail(email).orElseThrow(() -> new UnauthorizedException("Invalid token"));
+        memberRepository.findByEmail(email).orElseThrow(() -> new UnauthorizedException(ErrorCode.INVALID_TOKEN));
     }
 
     private Claims getClaims(String jwtToken) {

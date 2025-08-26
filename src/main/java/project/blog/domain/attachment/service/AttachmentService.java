@@ -10,6 +10,7 @@ import org.springframework.web.util.UriUtils;
 import project.blog.domain.attachment.entity.Attachment;
 import project.blog.domain.attachment.repository.AttachmentRepository;
 import project.blog.domain.file.service.FileService;
+import project.blog.global.config.common.ErrorCode;
 import project.blog.global.exception.custom.BadRequestException;
 
 import java.nio.charset.StandardCharsets;
@@ -24,7 +25,7 @@ public class AttachmentService {
 
     public ResponseEntity<Resource> downloadAttachment(Long attachmentId) {
         Attachment attachment = attachmentRepository.findById(attachmentId)
-                .orElseThrow(() -> new BadRequestException("attachment doesn't exist" ));
+                .orElseThrow(() -> new BadRequestException(ErrorCode.ATTACHMENT_NOT_FOUND));
         Resource resource = fileService.getFileResource(attachment.getFilePath()  +"\\" + attachment.getSavedFileName());
         String encodedFileName = UriUtils.encode(attachment.getOriginalFileName(), StandardCharsets.UTF_8);
 

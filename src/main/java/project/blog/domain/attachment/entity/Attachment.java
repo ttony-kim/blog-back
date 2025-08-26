@@ -58,8 +58,12 @@ public class Attachment extends BaseTimeEntity {
                 filePath);
     }
 
-    public void setPost(Post post) {
+    public void attachToPost(Post post) {
         this.post = post;
+    }
+
+    public void detachFromPost() {
+        this.post = null;
     }
 
 }

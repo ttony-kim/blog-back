@@ -53,12 +53,12 @@ public class Post extends BaseTimeEntity {
 
     public void addAttachment(Attachment attachment) {
         attachments.add(attachment);
-        attachment.setPost(this);
+        attachment.attachToPost(this);
     }
 
     public void removeAttachment(Attachment attachment) {
         attachments.remove(attachment);
-        attachment.setPost(null);
+        attachment.detachFromPost();
     }
 
 }

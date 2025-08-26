@@ -11,6 +11,7 @@ import project.blog.domain.post.dto.PostDetailResponseDto;
 import project.blog.domain.post.dto.PostListResponseDto;
 import project.blog.domain.post.dto.PostRequestDto;
 import project.blog.domain.post.service.PostService;
+import project.blog.global.config.common.ErrorCode;
 import project.blog.global.exception.custom.BadRequestException;
 
 @Slf4j
@@ -65,7 +66,7 @@ public class PostController {
     public ResponseEntity<Long> getPostCount(Long categoryId, String searchValue) {
         log.info("Method: getPostCount");
         if (categoryId == null && (searchValue == null || searchValue.isBlank())) {
-            throw new BadRequestException("Invalid category id or search keyword");
+            throw new BadRequestException(ErrorCode.INVALID_CATEGORY_OR_SEARCH);
         }
 
         return ResponseEntity.ok(postService.getPostCount(categoryId, searchValue));

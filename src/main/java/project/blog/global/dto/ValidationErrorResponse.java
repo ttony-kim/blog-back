@@ -1,6 +1,7 @@
 package project.blog.global.dto;
 
 import lombok.Getter;
+import project.blog.global.config.common.ErrorCode;
 
 import java.util.Map;
 
@@ -10,7 +11,7 @@ public class ValidationErrorResponse extends ErrorResponse {
     private Map<String, String> errors;
 
     public ValidationErrorResponse(Map<String, String> errors) {
-        super("유효하지 않은 입력입니다.", "REQUEST_VALIDATION_FAILED");
+        super(ErrorCode.REQUEST_VALIDATION_FAILED);
         this.errors = errors;
     }
 

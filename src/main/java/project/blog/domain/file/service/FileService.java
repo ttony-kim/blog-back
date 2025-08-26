@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import project.blog.domain.file.dto.FileDto;
+import project.blog.global.config.common.ErrorCode;
 import project.blog.global.config.properties.FileStorageProperties;
 import project.blog.global.exception.custom.FileNotFoundException;
 import project.blog.global.exception.custom.FileNotProvidedException;
@@ -32,7 +33,7 @@ public class FileService {
 
     public FileDto saveFile(MultipartFile file) {
         if (file.isEmpty()) {
-            throw new FileNotProvidedException("File not provided");
+            throw new FileNotProvidedException(ErrorCode.FILE_NOT_PROVIDED);
         }
 
         String originalFileName = StringUtils.cleanPath(file.getOriginalFilename());
@@ -47,7 +48,7 @@ public class FileService {
 
             return FileDto.of(originalFileName, savedFileName, file.getContentType(), extension, file.getSize(), uploadPath.toString());
         } catch(IOException e) {
-            throw new FileUploadException("File upload failed");
+            throw new FileUploadException(ErrorCode.FILE_UPLOAD_FAILED);
         }
     }
 
@@ -56,12 +57,12 @@ public class FileService {
             Path path = Paths.get(filePath);
             Resource resource = new UrlResource(path.toUri());
             if (!resource.exists() || !resource.isReadable()) {
-                throw new FileNotFoundException("File not found or not readable");
+                throw new FileNotFoundException(ErrorCode.FILE_NOT_FOUND_OR_NOT_READABLE);
             }
 
             return resource;
         } catch (MalformedURLException e) {
-            throw new FileNotFoundException("Invalid file path");
+            throw new FileNotFoundException(ErrorCode.INVALID_FILE_PATH);
         }
     }
 
@@ -77,12 +78,12 @@ public class FileService {
     private String getFileExtension(String fileName) {
         String extension = StringUtils.getFilenameExtension(fileName);
         if (!StringUtils.hasText(extension)) {
-            throw new FileUploadException("Invalid file extension");
+            throw new FileUploadException(ErrorCode.INVALID_FILE_EXTENSION);
         }
 
         String lowerCaseExtension = extension.toLowerCase();
         if (!ALLOWED_EXTENSIONS.contains(lowerCaseExtension)) {
-            throw new FileUploadException("Not allowed file extension");
+            throw new FileUploadException(ErrorCode.NOT_ALLOWED_FILE_EXTENSION);
         }
 
         return lowerCaseExtension;
@@ -95,7 +96,7 @@ public class FileService {
                 Files.createDirectories(path); // 디렉토리 생성
             }
         } catch(IOException e) {
-            throw new FileUploadException("Unable to create directory");
+            throw new FileUploadException(ErrorCode.FILE_DIRECTORY_CREATION_FAILED);
         }
 
         return path;

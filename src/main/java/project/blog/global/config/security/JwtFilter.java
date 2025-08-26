@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import project.blog.global.config.common.ErrorCode;
 import project.blog.global.config.properties.ApiAuthRoutesProperties;
 import project.blog.global.config.properties.ApiAuthRoutesProperties.Route;
 import project.blog.global.dto.ErrorResponse;
@@ -45,7 +46,7 @@ public class JwtFilter implements Filter {
 
         String bearerToken = httpServletRequest.getHeader(HEADER_KEY);
         if (!(StringUtils.hasText(bearerToken) && bearerToken.startsWith(PREFIX))) {
-            setErrorResponse(httpServletResponse, "토큰이 존재하지 않습니다.", "NO_TOKEN_PROVIDED");
+            setErrorResponse(httpServletResponse, ErrorCode.NO_TOKEN_PROVIDED);
             return;
         }
 
@@ -54,23 +55,21 @@ public class JwtFilter implements Filter {
             chain.doFilter(request, response);
         } catch (SignatureException | MalformedJwtException e) {
             e.printStackTrace();
-            setErrorResponse(httpServletResponse, "유효하지 않은 토큰입니다.", "INVALID_TOKEN");
+            setErrorResponse(httpServletResponse, ErrorCode.INVALID_TOKEN);
         } catch (ExpiredJwtException e) {
             e.printStackTrace();
-            setErrorResponse(httpServletResponse, "만료된 토큰입니다.", "EXPIRED_TOKEN");
+            setErrorResponse(httpServletResponse, ErrorCode.EXPIRED_TOKEN);
         } catch (JwtException e) {
             e.printStackTrace();
-            setErrorResponse(httpServletResponse, "잘못된 토큰입니다.", "MALFORMED_TOKEN");
+            setErrorResponse(httpServletResponse, ErrorCode.MALFORMED_TOKEN);
         }
     }
 
-    private void setErrorResponse(HttpServletResponse response, String message, String errorCode) throws IOException {
-        ErrorResponse errorResponse = new ErrorResponse(message, errorCode);
-
+    private void setErrorResponse(HttpServletResponse response, ErrorCode errorCode) throws IOException {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(new ObjectMapper().writeValueAsString(errorResponse));
+        response.getWriter().write(new ObjectMapper().writeValueAsString(ErrorResponse.of(errorCode)));
     }
 
     private boolean isAuthRequired(String path, String method) {

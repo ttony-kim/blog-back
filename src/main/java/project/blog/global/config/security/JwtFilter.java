@@ -2,6 +2,7 @@ package project.blog.global.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.*;
@@ -57,7 +58,7 @@ public class JwtFilter implements Filter {
         } catch (ExpiredJwtException e) {
             e.printStackTrace();
             setErrorResponse(httpServletResponse, "만료된 토큰입니다.", "EXPIRED_TOKEN");
-        } catch (Exception e) {
+        } catch (JwtException e) {
             e.printStackTrace();
             setErrorResponse(httpServletResponse, "잘못된 토큰입니다.", "MALFORMED_TOKEN");
         }

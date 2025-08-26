@@ -1,5 +1,6 @@
 package project.blog.domain.category.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -34,13 +35,11 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<String> saveCategories(@RequestBody List<CategoryRequestDto> categories) {
+    public ResponseEntity<String> saveCategories(@RequestBody @Valid CategoryRequestDto categoryDto) {
         log.info("Method: saveCategories");
-
-        categoryService.saveCategories(categories);
+        categoryService.saveCategories(categoryDto.getCategories());
 
         return ResponseEntity.ok("ok");
     }
-
 
 }

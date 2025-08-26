@@ -43,13 +43,6 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
         return new PageImpl<>(list, pageable, count);
     }
 
-    @Override
-    public void deleteByCategoryId(List<Long> categoryIds) {
-        queryFactory.delete(post)
-                .where(post.category.id.in(categoryIds))
-                .execute();
-    }
-
     private BooleanExpression categoryIdEq(Long categoryId) {
         return categoryId != null ? post.category.id.eq(categoryId) : null;
     }

@@ -1,5 +1,6 @@
 package project.blog.domain.post.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -29,10 +30,8 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<String> savePost(@ModelAttribute PostRequestDto postDto) {
+    public ResponseEntity<String> savePost(@ModelAttribute @Valid PostRequestDto postDto) {
         log.info("Method: savePost");
-        log.info("data: {}", postDto.toString());
-
         postService.savePost(postDto);
 
         return ResponseEntity.ok("ok");
@@ -41,17 +40,14 @@ public class PostController {
     @GetMapping("/{postId}")
     public ResponseEntity<PostDetailResponseDto> getPost(@PathVariable("postId") long postId) {
         log.info("Method: getPost");
-
         PostDetailResponseDto result = postService.getPost(postId);
 
         return ResponseEntity.ok(result);
     }
 
     @PutMapping("/{postId}")
-    public ResponseEntity<String> updatePost(@PathVariable("postId") long postId, @ModelAttribute PostRequestDto postDto) {
+    public ResponseEntity<String> updatePost(@PathVariable("postId") long postId, @ModelAttribute @Valid PostRequestDto postDto) {
         log.info("Method: updatePost");
-        log.info("data: {}", postDto.toString());
-
         postService.updatePost(postId, postDto);
 
         return ResponseEntity.ok("ok");
@@ -60,7 +56,6 @@ public class PostController {
     @DeleteMapping("/{postId}")
     public ResponseEntity<String> deletePost(@PathVariable("postId") long postId) {
         log.info("Method: deletePost");
-
         postService.deletePost(postId);
 
         return ResponseEntity.ok("ok");
@@ -69,7 +64,6 @@ public class PostController {
     @GetMapping("/count")
     public ResponseEntity<Long> getPostCount(Long categoryId, String searchValue) {
         log.info("Method: getPostCount");
-
         if (categoryId == null && (searchValue == null || searchValue.isBlank())) {
             throw new BadRequestException("Invalid category id or search keyword");
         }

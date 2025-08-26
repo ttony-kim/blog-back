@@ -1,5 +1,7 @@
 package project.blog.domain.post.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,9 +16,15 @@ import java.util.List;
 @NoArgsConstructor
 public class PostRequestDto {
 
+    @NotBlank(message = "게시글 제목을 입력해 주세요.")
     private String title;
+
+    @NotBlank(message = "게시글 내용을 입력해 주세요.")
     private String content;
+
+    @NotNull(message = "카테고리 ID를 입력해 주세요.")
     private Long categoryId;
+
     private List<MultipartFile> files;
     private List<Long> deletedFileIds;
 

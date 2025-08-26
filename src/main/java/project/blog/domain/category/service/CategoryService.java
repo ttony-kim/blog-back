@@ -4,10 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.blog.domain.category.dto.CategoryDetailResponseDto;
-import project.blog.domain.category.dto.CategoryRequestDto;
+import project.blog.domain.category.dto.CategoryRequestDto.CategoryDto;
 import project.blog.domain.category.dto.CategoryResponseDto;
 import project.blog.domain.category.entity.Category;
 import project.blog.domain.category.repository.CategoryRepository;
+import project.blog.domain.post.entity.Post;
 import project.blog.domain.post.repository.PostRepository;
 
 import java.util.List;
@@ -38,12 +39,12 @@ public class CategoryService {
         return categoryRepository.findCategoryDetails();
     }
 
-    public void saveCategories(List<CategoryRequestDto> categories) {
-        Map<Boolean, List<CategoryRequestDto>> partitioned = categories.stream()
+    public void saveCategories(List<CategoryDto> categories) {
+        Map<Boolean, List<CategoryDto>> partitioned = categories.stream()
                 .collect(Collectors.partitioningBy(dto -> dto.getId() == null));
 
-        List<CategoryRequestDto> categoriesToInsert = partitioned.get(true); // id == null
-        List<CategoryRequestDto> categoriesToUpdate = partitioned.get(false); // id != null
+        List<CategoryDto> categoriesToInsert = partitioned.get(true); // id == null
+        List<CategoryDto> categoriesToUpdate = partitioned.get(false); // id != null
 
         // 기존 카테고리 수정 및 삭제
         updateOrDeleteCategories(categoriesToUpdate);
@@ -51,20 +52,20 @@ public class CategoryService {
         insertCategories(categoriesToInsert);
     }
 
-    private void insertCategories(List<CategoryRequestDto> categoryDtos) {
+    private void insertCategories(List<CategoryDto> categoryDtos) {
         if (categoryDtos == null || categoryDtos.isEmpty()) return;
 
         List<Category> categories = categoryDtos.stream()
-                .map(CategoryRequestDto::toEntity)
+                .map(CategoryDto::toEntity)
                 .toList();
 
         categoryRepository.saveAll(categories);
     }
 
-    private void updateOrDeleteCategories(List<CategoryRequestDto> categoryDtos) {
+    private void updateOrDeleteCategories(List<CategoryDto> categoryDtos) {
         List<Category> allCategories = categoryRepository.findAll();
-        Map<Long, CategoryRequestDto> dtoMap = categoryDtos.stream()
-                .collect(Collectors.toMap(CategoryRequestDto::getId, Function.identity()));
+        Map<Long, CategoryDto> dtoMap = categoryDtos.stream()
+                .collect(Collectors.toMap(CategoryDto::getId, Function.identity()));
 
         List<Long> deleteCategoryIds = allCategories.stream()
                 .map(Category::getId)
@@ -76,7 +77,7 @@ public class CategoryService {
         }
 
         for (Category category : allCategories) {
-            CategoryRequestDto categoryDto = dtoMap.get(category.getId());
+            CategoryDto categoryDto = dtoMap.get(category.getId());
             if (categoryDto != null) {
                 category.update(categoryDto.getName(), categoryDto.getEnabled(), categoryDto.getDisplayOrder());
             }
@@ -84,7 +85,9 @@ public class CategoryService {
     }
 
     private void deleteCategories(List<Long> categoryIds) {
-        postRepository.deleteByCategoryId(categoryIds);
+        List<Post> posts = postRepository.findByIdCategoryIdIn(categoryIds);
+        postRepository.deleteAll(posts);
+
         categoryRepository.deleteAllById(categoryIds);
     }
 

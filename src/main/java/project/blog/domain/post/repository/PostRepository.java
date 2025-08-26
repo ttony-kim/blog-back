@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import project.blog.domain.post.entity.Post;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post, Long>, PostRepositoryCustom {
@@ -23,6 +24,9 @@ public interface PostRepository extends JpaRepository<Post, Long>, PostRepositor
             left join fetch p.category
             where p.id = :postId
             """ )
-    Optional<Post> findByIdWithAttachments(@Param("postId" ) Long postId);
+    Optional<Post> findByIdWithAttachments(@Param("postId") Long postId);
+
+    @Query("select p from Post p where p.category.id in :categoryIds")
+    List<Post> findByIdCategoryIdIn(@Param("categoryIds") List<Long> categoryIds);
 
 }

@@ -1,5 +1,6 @@
 package project.blog.domain.auth.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class LoginController {
     private final LoginService loginService;
 
     @PostMapping("/api/login")
-    public ResponseEntity<String> login(@RequestBody LoginDto loginDto) {
+    public ResponseEntity<String> login(@RequestBody @Valid LoginDto loginDto) {
         log.info("Method: login");
         String token = loginService.authenticate(loginDto);
 

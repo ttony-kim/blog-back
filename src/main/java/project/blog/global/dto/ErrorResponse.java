@@ -1,14 +1,17 @@
 package project.blog.global.dto;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 
 @Getter
-@RequiredArgsConstructor
 public class ErrorResponse {
 
-    private final String message;
-    private final String errorCode;
+    private String message;
+    private String errorCode;
+
+    public ErrorResponse(String message, String errorCode) {
+        this.message = message;
+        this.errorCode = errorCode;
+    }
 
 }

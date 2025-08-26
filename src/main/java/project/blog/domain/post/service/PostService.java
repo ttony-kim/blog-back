@@ -18,6 +18,7 @@ import project.blog.domain.post.dto.PostRequestDto;
 import project.blog.domain.post.entity.Post;
 import project.blog.domain.post.repository.PostRepository;
 import project.blog.global.config.common.BasicCode;
+import project.blog.global.exception.custom.BadRequestException;
 
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class PostService {
     }
 
     public void savePost(PostRequestDto postDto) {
-        Category category = categoryRepository.findById(postDto.getCategoryId()).orElseThrow(() -> new IllegalArgumentException("category doesn't exist"));
+        Category category = categoryRepository.findById(postDto.getCategoryId()).orElseThrow(() -> new BadRequestException("category doesn't exist"));
 
         Post post = postDto.toEntity(category);
 
@@ -51,14 +52,14 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public PostDetailResponseDto getPost(Long postId) {
-        Post post = postRepository.findByIdWithAttachments(postId).orElseThrow(() -> new IllegalArgumentException("post doesn't exist"));
+        Post post = postRepository.findByIdWithAttachments(postId).orElseThrow(() -> new BadRequestException("post doesn't exist"));
 
         return  PostDetailResponseDto.toDto(post);
     }
 
     public void updatePost(long postId, PostRequestDto postDto) {
-        Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("post doesn't exist"));
-        Category category =  categoryRepository.findById(postDto.getCategoryId()).orElseThrow(() -> new IllegalArgumentException("post doesn't exist"));
+        Post post = postRepository.findById(postId).orElseThrow(() -> new BadRequestException("post doesn't exist"));
+        Category category =  categoryRepository.findById(postDto.getCategoryId()).orElseThrow(() -> new BadRequestException("category doesn't exist"));
 
         post.update(postDto.getTitle(), postDto.getContent(), category);
 
@@ -77,7 +78,7 @@ public class PostService {
     }
 
     public void deletePost(long postId) {
-        Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("post doesn't exist"));
+        Post post = postRepository.findById(postId).orElseThrow(() -> new BadRequestException("post doesn't exist"));
         for(Attachment attachment : post.getAttachments()) {
             fileService.deleteFile(attachment.getSavedFileName());
         }

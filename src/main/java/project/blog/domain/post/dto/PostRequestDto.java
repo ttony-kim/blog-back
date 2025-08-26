@@ -32,13 +32,4 @@ public class PostRequestDto {
         return Post.of(title, content, category);
     }
 
-    @Override
-    public String toString() {
-        return "PostRequestDto{" +
-                "title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", categoryId=" + categoryId +
-                '}';
-    }
-
 }

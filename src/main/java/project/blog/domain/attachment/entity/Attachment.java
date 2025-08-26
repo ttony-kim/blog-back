@@ -18,23 +18,29 @@ public class Attachment extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 255, nullable = false)
     private String originalFileName;
 
+    @Column(length = 255, nullable = false)
     private String savedFileName;
 
+    @Column(length = 255, nullable = false)
     private String contentType;
 
+    @Column(length = 50, nullable = false)
     private String extension;
 
+    @Column(nullable = false)
     private Long size;
 
+    @Column(length = 255, nullable = false)
     private String filePath;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
-    public Attachment(String originalFileName, String savedFileName, String contentType, String extension, Long size, String filePath) {
+    private Attachment(String originalFileName, String savedFileName, String contentType, String extension, Long size, String filePath) {
         this.originalFileName = originalFileName;
         this.savedFileName = savedFileName;
         this.contentType = contentType;
@@ -54,19 +60,6 @@ public class Attachment extends BaseTimeEntity {
 
     public void setPost(Post post) {
         this.post = post;
-    }
-
-    @Override
-    public String toString() {
-        return "Attachment{" +
-                "filePath='" + filePath + '\'' +
-                ", size=" + size +
-                ", extension='" + extension + '\'' +
-                ", contentType='" + contentType + '\'' +
-                ", savedFileName='" + savedFileName + '\'' +
-                ", originalFileName='" + originalFileName + '\'' +
-                ", id=" + id +
-                '}';
     }
 
 }

@@ -17,11 +17,13 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 255, nullable = false)
     private String name;
 
     @Convert(converter = BooleanToYNConverter.class)
     private Boolean enabled;
 
+    @Column(nullable = false)
     private Integer displayOrder;
 
     private Category(String name, Boolean enabled, Integer displayOrder) {
@@ -38,16 +40,6 @@ public class Category {
         this.name = name;
         this.enabled = enabled;
         this.displayOrder = displayOrder;
-    }
-
-    @Override
-    public String toString() {
-        return "Category{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", enabled=" + enabled +
-                ", displayOrder=" + displayOrder +
-                '}';
     }
 
 }

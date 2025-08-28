@@ -40,9 +40,10 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.5'
-
 	// Bcrypt
 	implementation 'org.mindrot:jbcrypt:0.4'
+	// jasypt
+	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
 
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

@@ -13,12 +13,6 @@ public interface PostRepository extends JpaRepository<Post, Long>, PostRepositor
     Long countByCategoryId(Long categoryId);
 
     @Query("""
-            select count(p) from Post p
-            where p.title like concat('%', :searchValue, '%') or p.content like concat('%', :searchValue, '%')
-            """)
-    Long countBySearchValue(@Param("searchValue") String searchValue);
-
-    @Query("""
             select p from Post p
             left join fetch p.attachments
             left join fetch p.category

@@ -14,6 +14,8 @@ import project.blog.global.config.common.ErrorCode;
 import project.blog.global.exception.custom.BadRequestException;
 
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Service
@@ -26,12 +28,13 @@ public class AttachmentService {
     public ResponseEntity<Resource> downloadAttachment(Long attachmentId) {
         Attachment attachment = attachmentRepository.findById(attachmentId)
                 .orElseThrow(() -> new BadRequestException(ErrorCode.ATTACHMENT_NOT_FOUND));
-        Resource resource = fileService.getFileResource(attachment.getFilePath()  +"\\" + attachment.getSavedFileName());
+        Path filePath = Paths.get(attachment.getFilePath(), attachment.getSavedFileName());
+        Resource resource = fileService.getFileResource(filePath);
         String encodedFileName = UriUtils.encode(attachment.getOriginalFileName(), StandardCharsets.UTF_8);
 
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(attachment.getContentType()))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + encodedFileName + "\"; filename*=UTF-8''" + encodedFileName)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + encodedFileName + "; filename*=UTF-8''" + encodedFileName)
                 .body(resource);
     }
 

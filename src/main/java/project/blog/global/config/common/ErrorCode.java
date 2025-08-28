@@ -24,7 +24,6 @@ public enum ErrorCode {
     MALFORMED_TOKEN("잘못된 형식의 토큰입니다."),
     NO_TOKEN_PROVIDED("토큰이 제공되지 않았습니다."),
     // 요청
-    INVALID_CATEGORY_OR_SEARCH("카테고리 ID 또는 검색어가 유효하지 않습니다."),
     REQUEST_VALIDATION_FAILED("잘못된 요청 값이 존재합니다."),
     INVALID_REQUEST_BODY("요청 JSON 형식이 잘못되었거나 데이터 타입이 올바르지 않습니다."),
     PARAMETER_TYPE_MISMATCH("요청 파라미터 타입이 올바르지 않습니다."),

@@ -1,6 +1,7 @@
 package project.blog.domain.post.controller;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -11,8 +12,6 @@ import project.blog.domain.post.dto.PostDetailResponseDto;
 import project.blog.domain.post.dto.PostListResponseDto;
 import project.blog.domain.post.dto.PostRequestDto;
 import project.blog.domain.post.service.PostService;
-import project.blog.global.config.common.ErrorCode;
-import project.blog.global.exception.custom.BadRequestException;
 
 @Slf4j
 @RestController
@@ -63,13 +62,10 @@ public class PostController {
     }
 
     @GetMapping("/count")
-    public ResponseEntity<Long> getPostCount(Long categoryId, String searchValue) {
+    public ResponseEntity<Long> getPostCount(@RequestParam @NotNull Long categoryId) {
         log.info("Method: getPostCount");
-        if (categoryId == null && (searchValue == null || searchValue.isBlank())) {
-            throw new BadRequestException(ErrorCode.INVALID_CATEGORY_OR_SEARCH);
-        }
 
-        return ResponseEntity.ok(postService.getPostCount(categoryId, searchValue));
+        return ResponseEntity.ok(postService.getPostCount(categoryId));
     }
 
 }

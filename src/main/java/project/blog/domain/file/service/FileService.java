@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import project.blog.domain.file.dto.FileDto;
 import project.blog.global.config.common.ErrorCode;
 import project.blog.global.config.properties.FileStorageProperties;
+import project.blog.global.exception.custom.BadRequestException;
 import project.blog.global.exception.custom.FileNotFoundException;
 import project.blog.global.exception.custom.FileNotProvidedException;
 import project.blog.global.exception.custom.FileUploadException;
@@ -32,29 +33,31 @@ public class FileService {
     private final FileStorageProperties fileStorage;
 
     public FileDto saveFile(MultipartFile file) {
-        if (file.isEmpty()) {
+        if (file == null || file.isEmpty()) {
             throw new FileNotProvidedException(ErrorCode.FILE_NOT_PROVIDED);
         }
 
         String originalFileName = StringUtils.cleanPath(file.getOriginalFilename());
         String extension = getFileExtension(originalFileName);
         String savedFileName = UUID.randomUUID() + "." + extension;
-        Path uploadPath = getUploadPath();
-
+        Path uploadPath = resolveUploadPath();
         try {
-            // 파일 저장
             Path targetPath = uploadPath.resolve(savedFileName);
             file.transferTo(targetPath.toFile());
 
             return FileDto.of(originalFileName, savedFileName, file.getContentType(), extension, file.getSize(), uploadPath.toString());
         } catch(IOException e) {
+            deleteFile(savedFileName);
             throw new FileUploadException(ErrorCode.FILE_UPLOAD_FAILED);
         }
     }
 
-    public Resource getFileResource(String filePath) {
+    public Resource getFileResource(Path path) {
         try {
-            Path path = Paths.get(filePath);
+            if (path == null) {
+                throw new BadRequestException(ErrorCode.INVALID_FILE_PATH);
+            }
+
             Resource resource = new UrlResource(path.toUri());
             if (!resource.exists() || !resource.isReadable()) {
                 throw new FileNotFoundException(ErrorCode.FILE_NOT_FOUND_OR_NOT_READABLE);
@@ -67,6 +70,10 @@ public class FileService {
     }
 
     public void deleteFile(String savedFileName) {
+        if (!StringUtils.hasText(savedFileName)) {
+            throw new BadRequestException(ErrorCode.REQUEST_VALIDATION_FAILED);
+        }
+
         Path path = Paths.get(fileStorage.getPath(), savedFileName);
         try {
             Files.deleteIfExists(path);
@@ -89,7 +96,7 @@ public class FileService {
         return lowerCaseExtension;
     }
 
-    private Path getUploadPath() {
+    private Path resolveUploadPath() {
         Path path = Paths.get(fileStorage.getPath());
         try {
             if (Files.notExists(path)) {

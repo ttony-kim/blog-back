@@ -88,18 +88,8 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public Long getPostCount(Long categoryId, String searchValue) {
-        // category 선택 시
-        if (categoryId != null) {
-            if (categoryId.equals(BasicCode.ALL.getId())) {
-                return postRepository.count();
-            } else {
-                return postRepository.countByCategoryId(categoryId);
-            }
-        }
-
-        // 검색어 searchValue 입력 시
-        return postRepository.countBySearchValue(searchValue);
+    public Long getPostCount(Long categoryId) {
+        return postRepository.countByCategoryId(categoryId);
     }
 
     private void addAttachment(Post post, List<MultipartFile> files) {

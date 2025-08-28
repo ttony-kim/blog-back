@@ -20,12 +20,12 @@ public class CategoryRepositoryCustomImpl implements CategoryRepositoryCustom {
     @Override
     public List<CategoryDetailResponseDto> findCategoryDetails() {
         List<CategoryDetailResponseDto> result = queryFactory
-                .select(Projections.fields(CategoryDetailResponseDto.class,
+                .select(Projections.constructor(CategoryDetailResponseDto.class,
                         category.id,
                         category.name,
                         category.enabled,
                         category.displayOrder,
-                        post.count().intValue().as("postCount")
+                        post.count().intValue()
                 ))
                 .from(category)
                 .leftJoin(post).on(post.category.eq(category))

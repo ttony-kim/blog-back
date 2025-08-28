@@ -31,3 +31,6 @@ jasypt:
     password: ${secretKey}
     algorithm: PBEWithMD5AndDES
     iv-generator-classname: org.jasypt.iv.NoIvGenerator
+
+jwt:
+  secret-key: ENC(aUBTr3LoTufYc9tIjIL17Dgr1GsSNVQOAu/aEPWEWV3Si6bgDMm7+ACE9gtoralNTnyrdwOIcws=)

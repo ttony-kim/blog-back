@@ -5,8 +5,8 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import project.blog.domain.member.entity.Member;
 import project.blog.domain.member.repository.MemberRepository;
@@ -24,9 +24,9 @@ public class JwtProvider {
     private final SecretKey secretKey;
     private final MemberRepository memberRepository;
 
-    public JwtProvider(MemberRepository memberRepository) {
+    public JwtProvider(MemberRepository memberRepository, @Value("${jwt.secret-key}") String secretKey) {
         this.memberRepository = memberRepository;
-        byte[] keyBytes = Decoders.BASE64URL.decode("SecretKeySecretKeySecretKeySecretKeySecretKey");
+        byte[] keyBytes = Decoders.BASE64URL.decode(secretKey);
         this.secretKey = Keys.hmacShaKeyFor(keyBytes);
     }
 

@@ -1,39 +1,45 @@
 package project.blog.domain.category.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import project.blog.global.config.common.BooleanToYNConverter;
 
 @Entity
 @Getter
+@Table(name = "tbl_category")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Category {
 
     @Id
     @Column(name = "category_id")
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 255, nullable = false)
     private String name;
 
-    private Category(String name) {
+    @Convert(converter = BooleanToYNConverter.class)
+    private Boolean enabled;
+
+    @Column(nullable = false)
+    private Integer displayOrder;
+
+    private Category(String name, Boolean enabled, Integer displayOrder) {
         this.name = name;
+        this.enabled = enabled;
+        this.displayOrder = displayOrder;
     }
 
-    public static Category from(String name) {
-        return new Category(name);
+    public static Category of(String name, Boolean enabled, Integer displayOrder) {
+        return new Category(name, enabled, displayOrder);
     }
 
-
-    @Override
-    public String toString() {
-        return "Category{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+    public void update(String name, Boolean enabled, Integer displayOrder) {
+        this.name = name;
+        this.enabled = enabled;
+        this.displayOrder = displayOrder;
     }
+
 }

@@ -1,17 +1,26 @@
 package project.blog.domain.post.repository;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import project.blog.domain.post.entity.Post;
 
-public interface PostRepository extends JpaRepository<Post, Long> {
+import java.util.List;
+import java.util.Optional;
 
-    @Query("select p from Post p join fetch p.category where (:categoryId is null or p.category.id = :categoryId) order by p.createdDate desc")
-    Page<Post> findByCategoryId(@Param("categoryId") Long categoryId, Pageable pageable);
+public interface PostRepository extends JpaRepository<Post, Long>, PostRepositoryCustom {
 
     Long countByCategoryId(Long categoryId);
+
+    @Query("""
+            select p from Post p
+            left join fetch p.attachments
+            left join fetch p.category
+            where p.id = :postId
+            """ )
+    Optional<Post> findByIdWithAttachments(@Param("postId") Long postId);
+
+    @Query("select p from Post p where p.category.id in :categoryIds")
+    List<Post> findByIdCategoryIdIn(@Param("categoryIds") List<Long> categoryIds);
 
 }

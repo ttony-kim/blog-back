@@ -4,26 +4,36 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import project.blog.domain.attachment.entity.Attachment;
 import project.blog.domain.category.entity.Category;
 import project.blog.global.entity.BaseTimeEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
+@Table(name = "tbl_post")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Post extends BaseTimeEntity {
 
     @Id
     @Column(name = "post_id")
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 255, nullable = false)
     private String title;
-    @Lob
+
+    @Column(columnDefinition = "longtext", nullable = false)
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Attachment> attachments = new ArrayList<>();
 
     private Post(String title, String content, Category category) {
         this.title = title;
@@ -31,7 +41,7 @@ public class Post extends BaseTimeEntity {
         this.category = category;
     }
 
-    public static Post from(String title, String content, Category category) {
+    public static Post of(String title, String content, Category category) {
         return new Post(title, content, category);
     }
 
@@ -41,12 +51,14 @@ public class Post extends BaseTimeEntity {
         this.category = category;
     }
 
-    @Override
-    public String toString() {
-        return "Post{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                '}';
+    public void addAttachment(Attachment attachment) {
+        attachments.add(attachment);
+        attachment.attachToPost(this);
     }
+
+    public void removeAttachment(Attachment attachment) {
+        attachments.remove(attachment);
+        attachment.detachFromPost();
+    }
+
 }

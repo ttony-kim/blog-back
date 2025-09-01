@@ -1,0 +1,6 @@
+CREATE TABLE tbl_category (
+    category_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    enabled VARCHAR(255) NOT NULL,
+    display_order INT NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=1;

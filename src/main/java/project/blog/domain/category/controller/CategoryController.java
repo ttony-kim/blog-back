@@ -1,12 +1,13 @@
 package project.blog.domain.category.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import project.blog.domain.category.dto.CategoryDto;
+import org.springframework.web.bind.annotation.*;
+import project.blog.domain.category.dto.CategoryDetailResponseDto;
+import project.blog.domain.category.dto.CategoryRequestDto;
+import project.blog.domain.category.dto.CategoryResponseDto;
 import project.blog.domain.category.service.CategoryService;
 
 import java.util.List;
@@ -19,11 +20,26 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
-    @GetMapping("/all")
-    public ResponseEntity<List<CategoryDto>> getAllCategories() {
-        log.info("Method: getAllCategories");
+    @GetMapping
+    public ResponseEntity<List<CategoryResponseDto>> getCategories() {
+        log.info("Method: getCategories");
 
-        return ResponseEntity.ok(categoryService.getAllCategories());
+        return ResponseEntity.ok(categoryService.getCategories());
+    }
+
+    @GetMapping("/detail")
+    public ResponseEntity<List<CategoryDetailResponseDto>> getCategoryDetails() {
+        log.info("Method: getCategoryDetails");
+
+        return ResponseEntity.ok(categoryService.getCategoryDetails());
+    }
+
+    @PostMapping
+    public ResponseEntity<String> saveCategories(@RequestBody @Valid CategoryRequestDto categoryDto) {
+        log.info("Method: saveCategories");
+        categoryService.saveCategories(categoryDto.getCategories());
+
+        return ResponseEntity.ok("ok");
     }
 
 }

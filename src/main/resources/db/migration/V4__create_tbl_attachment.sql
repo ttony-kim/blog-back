@@ -9,4 +9,4 @@ CREATE TABLE tbl_attachment (
     post_id BIGINT NOT NULL,
     created_date DATETIME(6) NOT NULL,
     CONSTRAINT fk_attachment_post FOREIGN KEY (post_id) REFERENCES tbl_post (post_id)
-) ENGINE=InnoDB AUTO_INCREMENT=1;;
+) ENGINE=InnoDB AUTO_INCREMENT=1;

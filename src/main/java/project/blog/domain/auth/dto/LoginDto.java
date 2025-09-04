@@ -14,4 +14,9 @@ public class LoginDto {
     @NotBlank(message = "Password를 입력해 주세요.")
     private String password;
 
+    public LoginDto(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
 }

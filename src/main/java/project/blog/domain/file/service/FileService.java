@@ -28,7 +28,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class FileService {
 
-    private static final List<String> ALLOWED_EXTENSIONS = List.of("jpg", "jpeg", "png", "pdf");
+    private static final List<String> ALLOWED_EXTENSIONS = List.of("txt", "jpg", "jpeg", "png", "pdf");
 
     private final FileStorageProperties fileStorage;
 
@@ -85,12 +85,12 @@ public class FileService {
     private String getFileExtension(String fileName) {
         String extension = StringUtils.getFilenameExtension(fileName);
         if (!StringUtils.hasText(extension)) {
-            throw new FileUploadException(ErrorCode.INVALID_FILE_EXTENSION);
+            throw new BadRequestException(ErrorCode.INVALID_FILE_EXTENSION);
         }
 
         String lowerCaseExtension = extension.toLowerCase();
         if (!ALLOWED_EXTENSIONS.contains(lowerCaseExtension)) {
-            throw new FileUploadException(ErrorCode.NOT_ALLOWED_FILE_EXTENSION);
+            throw new BadRequestException(ErrorCode.NOT_ALLOWED_FILE_EXTENSION);
         }
 
         return lowerCaseExtension;

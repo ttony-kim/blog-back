@@ -18,6 +18,10 @@ public class CategoryRequestDto {
     @Valid
     private List<CategoryDto> categories;
 
+    public CategoryRequestDto(List<CategoryDto> categories) {
+        this.categories = categories;
+    }
+
     @Getter
     @Setter
     @NoArgsConstructor

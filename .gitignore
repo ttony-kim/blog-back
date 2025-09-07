@@ -38,3 +38,6 @@ out/
 
 ### Querydsl Qclass ###
 src/main/generated/
+
+### log ###
+logs

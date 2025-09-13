@@ -38,4 +38,4 @@ jasypt:
     iv-generator-classname: org.jasypt.iv.NoIvGenerator
 
 jwt:
-  secret-key: ENC(kIIocP7R29s2wvANZ/fLPFLHVrV1oirrLPuJsc6ijjBjWDk6qPxbsM40V98UCSAn7Ybq4sMYswy11s07hu2XxJ3cBvr2DBdXlg2Y1b+8PhtFY0o4ZtFK8A==)
+  secret-key: ENC(JdS2SXkl6xFrVnCwhVdtKoA+jHq2z8HHraaj4mcDUEjT9s+vSl37gIqPBLO+sB8Vd7pf33mUG4g=)

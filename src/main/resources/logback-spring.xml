@@ -25,7 +25,7 @@
         </rollingPolicy>
     </appender>
 
-    <springProfile name="dev">
+    <springProfile name="!prod">
         <root level="WARNING">
             <appender-ref ref="CONSOLE"/>
         </root>

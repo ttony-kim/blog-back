@@ -25,13 +25,13 @@
         </rollingPolicy>
     </appender>
 
-    <springProfile name="!prod">
+    <springProfile name="!dev">
         <root level="WARNING">
             <appender-ref ref="CONSOLE"/>
         </root>
     </springProfile>
 
-    <springProfile name="prod">
+    <springProfile name="dev">
         <root level="WARNING">
             <appender-ref ref="CONSOLE"/>
             <appender-ref ref="FILE"/>

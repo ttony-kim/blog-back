@@ -24,7 +24,7 @@ jobs:
         gradle-version: '8.2.1'
     - name: Build with Gradle Wrapper
       env:
-        secretKey: ${{ secrets.JASYPT_PASSWORD }}
+        secretKey: ${{ secrets.BUILD_JASYPT_PASSWORD }}
       run: | 
         chmod +x ./gradlew
         ./gradlew build --stacktrace

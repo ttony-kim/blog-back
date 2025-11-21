@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: ENC(/Zu7XSOMxrA7D8mGgiuExTqHayUUOANSImxZlecBQkeqLUEyU3myhkp2CsR1YFjs2Ey9UyKQM4jUMcTlTDZVSYk2GAr8j4WsZME+BnxzsCV9hAMJJz5kDw==)
+    username: ENC(vscBxyPm3eNypESgX6KRSA==)
+    password: ENC(EMGzAjqrBU1gkTXYWFz4JB0jYERn5xRiMMKXrce6To0=)
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+jwt:
+  secret-key: ENC(ZR87xZE3yunC2Fg5yabMN6tvrkortYMh6R1tyO6fOUue83E6LOrQzEZ+VlSaJlHxWYYKj2mLACo=)

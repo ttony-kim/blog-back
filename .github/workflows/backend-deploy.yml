@@ -60,6 +60,8 @@ jobs:
           script: |
             cd /home/ec2-user
             docker-compose down
+            cd /home/ec2-user/build
+            rm -rf *
       - name: Copy jar to Server
         uses: appleboy/scp-action@v1
         with:

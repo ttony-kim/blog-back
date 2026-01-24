@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <property name="LOG_PATH" value="logs"/>
-    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n"/>
+    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level [%X{traceId}] %logger - %msg%n"/>
 
     <!-- 콘솔 출력 -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
@@ -26,14 +26,14 @@
     </appender>
 
     <springProfile name="!local">
-        <root level="WARNING">
+        <root level="INFO">
             <appender-ref ref="FILE"/>
             <appender-ref ref="CONSOLE"/>
         </root>
     </springProfile>
 
     <springProfile name="local">
-        <root level="WARNING">
+        <root level="INFO">
             <appender-ref ref="CONSOLE"/>
         </root>
     </springProfile>

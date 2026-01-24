@@ -1,4 +1,4 @@
-package project.blog.global.config.security;
+package project.blog.global.config.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -10,18 +10,20 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import project.blog.global.config.common.ErrorCode;
 import project.blog.global.config.properties.ApiAuthRoutesProperties;
 import project.blog.global.config.properties.ApiAuthRoutesProperties.Route;
+import project.blog.global.config.security.JwtProvider;
 import project.blog.global.dto.ErrorResponse;
 
 import java.io.IOException;
 import java.util.List;
 
-@Slf4j
+@Order(2)
 @Component
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {

@@ -1,10 +1,10 @@
 name: Spring Boot CI/CD with Gradle
 
-#on:
-#  push:
-#    branches: [ "aws-s3-deploy" ]
-#  pull_request:
-#    branches: [ "aws-s3-deploy" ]
+on:
+  push:
+    branches: [ "logging-feature-branch" ]
+  pull_request:
+    branches: [ "logging-feature-branch" ]
 
 env:
   S3_BUCKET_NAME: s3-codedeploy-backend-artifacts
@@ -44,7 +44,7 @@ jobs:
 
     - name: Create .env file
       env:
-        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        SECRET_KEY: ${{ secrets.SYECRET_KE }}
         SPRING_PROFILE: ${{ secrets.SPRING_PROFILE }}
       run: |
         cat > deploy/.env <<EOF
@@ -69,7 +69,6 @@ jobs:
       run: |
         ZIP_NAME="app-${GITHUB_SHA}.zip"
         aws s3 cp --region ap-northeast-2 $ZIP_NAME s3://$S3_BUCKET_NAME/$ZIP_NAME
-
 
     - name: Create CodeDeploy Deployment
       run: |

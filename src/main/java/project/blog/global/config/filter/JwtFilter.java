@@ -57,17 +57,20 @@ public class JwtFilter extends OncePerRequestFilter {
             jwtProvider.validateToken(token);
 
             filterChain.doFilter(request, response);
-        } catch (SignatureException | MalformedJwtException e) {
-            e.printStackTrace();
-            setErrorResponse(response, ErrorCode.INVALID_TOKEN);
-        } catch (ExpiredJwtException e) {
-            e.printStackTrace();
-            setErrorResponse(response, ErrorCode.EXPIRED_TOKEN);
         } catch (JwtException e) {
             e.printStackTrace();
-            setErrorResponse(response, ErrorCode.MALFORMED_TOKEN);
-        }
+            ErrorCode errorCode;
 
+            if (e instanceof SignatureException || e instanceof MalformedJwtException) {
+                errorCode = ErrorCode.INVALID_TOKEN;
+            } else if (e instanceof ExpiredJwtException) {
+                errorCode = ErrorCode.EXPIRED_TOKEN;
+            } else {
+                errorCode = ErrorCode.MALFORMED_TOKEN;
+            }
+
+            setErrorResponse(response, errorCode);
+        }
     }
 
     private void setErrorResponse(HttpServletResponse response, ErrorCode errorCode) throws IOException {

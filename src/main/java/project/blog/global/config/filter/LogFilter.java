@@ -26,6 +26,8 @@ import java.util.stream.Collectors;
 public class LogFilter extends OncePerRequestFilter {
 
     private static final int MAX_LOG_LENGTH= 2000;
+    private static final String MULTIPART = "multipart";
+    private static final String IMAGE = "image";
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
@@ -58,7 +60,7 @@ public class LogFilter extends OncePerRequestFilter {
         String contentType = request.getContentType();
 
         String requestBody;
-        if (contentType != null && contentType.contains("multipart")) {
+        if (contentType != null && contentType.contains(MULTIPART)) {
             requestBody = formatParameterMap(request.getParameterMap());
         } else {
             byte[] contents = request.getContentAsByteArray();
@@ -95,8 +97,8 @@ public class LogFilter extends OncePerRequestFilter {
 
     private String getClientIp(HttpServletRequest request) {
         String[] headerNames = {
-                "X-Real-IP",
                 "X-Forwarded-For",
+                "X-Real-IP",
                 "Proxy-Client-IP",
                 "WL-Proxy-Client-IP",
                 "HTTP_CLIENT_IP",
@@ -118,7 +120,7 @@ public class LogFilter extends OncePerRequestFilter {
             return "Empty";
         }
 
-        if (contentType != null && (contentType.contains("multipart") || contentType.contains("image"))) {
+        if (contentType != null && (contentType.contains(MULTIPART) || contentType.contains(IMAGE))) {
             return "Binary Data";
         }
 

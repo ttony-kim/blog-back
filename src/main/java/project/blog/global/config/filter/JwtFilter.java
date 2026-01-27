@@ -1,4 +1,4 @@
-package project.blog.global.config.security;
+package project.blog.global.config.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -10,58 +10,66 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.springframework.web.filter.OncePerRequestFilter;
 import project.blog.global.config.common.ErrorCode;
 import project.blog.global.config.properties.ApiAuthRoutesProperties;
 import project.blog.global.config.properties.ApiAuthRoutesProperties.Route;
+import project.blog.global.config.security.JwtProvider;
 import project.blog.global.dto.ErrorResponse;
 
 import java.io.IOException;
 import java.util.List;
 
-@Slf4j
+@Order(2)
 @Component
 @RequiredArgsConstructor
-public class JwtFilter implements Filter {
+public class JwtFilter extends OncePerRequestFilter {
 
     private static final String HEADER_KEY = "Authorization";
     private static final String PREFIX = "Bearer ";
 
     private final JwtProvider jwtProvider;
     private final ApiAuthRoutesProperties apiAuthRoutes;
+    private final ObjectMapper objectMapper;
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String requestURI = request.getRequestURI();
+        String method = request.getMethod();
 
-        String requestURI = httpServletRequest.getRequestURI();
-        String method = httpServletRequest.getMethod();
+        return !isAuthRequired(requestURI, method);
+    }
 
-        if (!isAuthRequired(requestURI, method)) {
-            chain.doFilter(request, response);
-            return;
-        }
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        String bearerToken = request.getHeader(HEADER_KEY);
 
-        String bearerToken = httpServletRequest.getHeader(HEADER_KEY);
         if (!(StringUtils.hasText(bearerToken) && bearerToken.startsWith(PREFIX))) {
-            setErrorResponse(httpServletResponse, ErrorCode.NO_TOKEN_PROVIDED);
+            setErrorResponse(response, ErrorCode.NO_TOKEN_PROVIDED);
             return;
         }
 
         try {
-            jwtProvider.validateToken(bearerToken.substring(PREFIX.length()));
-            chain.doFilter(request, response);
-        } catch (SignatureException | MalformedJwtException e) {
-            e.printStackTrace();
-            setErrorResponse(httpServletResponse, ErrorCode.INVALID_TOKEN);
-        } catch (ExpiredJwtException e) {
-            e.printStackTrace();
-            setErrorResponse(httpServletResponse, ErrorCode.EXPIRED_TOKEN);
+            String token = bearerToken.substring(PREFIX.length());
+            jwtProvider.validateToken(token);
+
+            filterChain.doFilter(request, response);
         } catch (JwtException e) {
             e.printStackTrace();
-            setErrorResponse(httpServletResponse, ErrorCode.MALFORMED_TOKEN);
+            ErrorCode errorCode;
+
+            if (e instanceof SignatureException || e instanceof MalformedJwtException) {
+                errorCode = ErrorCode.INVALID_TOKEN;
+            } else if (e instanceof ExpiredJwtException) {
+                errorCode = ErrorCode.EXPIRED_TOKEN;
+            } else {
+                errorCode = ErrorCode.MALFORMED_TOKEN;
+            }
+
+            setErrorResponse(response, errorCode);
         }
     }
 
@@ -69,18 +77,16 @@ public class JwtFilter implements Filter {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(new ObjectMapper().writeValueAsString(ErrorResponse.of(errorCode)));
+        response.getWriter().write(objectMapper.writeValueAsString(ErrorResponse.of(errorCode)));
     }
 
     private boolean isAuthRequired(String path, String method) {
         List<Route> routes = apiAuthRoutes.getRoutes();
-
         for (Route route : routes) {
             if (path.matches(route.getPath()) && method.equals(route.getMethod())) {
                 return true;
             }
         }
-
         return false;
     }
 

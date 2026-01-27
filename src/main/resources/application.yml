@@ -14,10 +14,6 @@ spring:
     locations: classpath:db/migration
     baseline-on-migrate: false
 
-logging.level:
-  org.hibernate.SQL: debug
-  org.hibernate.orm.jdbc.bind: trace
-
 server:
   port: 8084
 
@@ -30,3 +26,9 @@ jasypt:
     password: ${secretKey}
     algorithm: PBEWithMD5AndDES
     iv-generator-classname: org.jasypt.iv.NoIvGenerator
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
+      logging: slf4j

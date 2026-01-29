@@ -31,7 +31,7 @@
 
 <br/>
 
-## 🏗 CD/CI 파이프라인
+## 🏗 CI/CD 파이프라인
 이 프로젝트는 여러 개의 `deploy 파일`을 통해 다양한 배포 환경을 제공합니다. 모든 배포는 **GitHub Actions**의 `workflow_dispatch`를 통해 수동으로 제어됩니다.
 
 ### 1. AWS Cloud Deployment
